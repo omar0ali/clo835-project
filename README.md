@@ -17,7 +17,16 @@ This project is about building, hosting, and deploying a containerized applicati
 For this one, we will use AWS EC2 Instance t2.micro as the controller node, since we wouldn't need to run kind or anything in it.
 - Set up an Amazon EKS Cluster (AWS-managed Kubernetes).
 - Creating... Kubernetes manifests (YAML files for Deployments, Services, Persistent Volumes, etc.).
-- Deploy everything using the kubectl command-line tool.
+- Deploy everything using the *ekctl* command-line tool and managment using *kubectl*.
+
+#### Objective
+Our objective is to have a virtual machine (EC2) that we can use as a **controller**, to deploy Amazon Elastic Kubernetes Service (EKS). We will automate the following:
+1. Pushing the docker images to AWS ECR, using *Github Action*.
+2. Deploying an `EC2 instance` instead of *cloud9* and install all required dependencies such as (kubectl, ekctl, docker, aws cli and eensure credentials setup). [terraform deployment](https://github.com/omar0ali/clo835-project/blob/v0.01/terraform/main.tf)
+3. Will clone our github repo that has all the yaml files (manifests) to deploy our cluster node on EKS.
+4. Will create a namespace to ensure everything is under its own environment.
+5. Start by creating the cluster using the configuration provided.
+...
 ---
 ## Getting Started
 Open Terminal (or Git Bash, VS Code Terminal, ghostty or kitty ;)
