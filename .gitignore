@@ -1,6 +1,6 @@
 # ignoring the keys
-ec2key.pub
-ec2key
+ec2_key.pub
+ec2_key
 *.pem
 *.pub
 
