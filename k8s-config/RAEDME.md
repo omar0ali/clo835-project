@@ -1,0 +1,12 @@
+### Requirements
+- [ ] Cluster Config
+- [ ] Namespace Config name (final)
+- [ ] Secrets Config
+- [ ] Deployments
+    - webapp: for the website
+    - mysql: for the database
+    - NOTE: both single replica
+- [ ] Services
+    - webapp: NodePort / External Connection
+    - mysql: ClusterIP / Local Connection
+- [ ] ConfigMap
