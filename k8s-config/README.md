@@ -1,6 +1,6 @@
 ### Requirements
-- [ ] Cluster Config
-- [ ] Namespace Config name (final)
+- [x] Cluster Config
+- [x] Namespace Config name (final)
 - [ ] Secrets Config
 - [ ] Deployments
     - webapp: for the website
