@@ -10,3 +10,5 @@
     - webapp: NodePort / External Connection
     - mysql: ClusterIP / Local Connection
 - [ ] ConfigMap
+- [ ] PVC
+- [ ] Service Account
