@@ -7,7 +7,7 @@
     - mysql: for the database
     - NOTE: both single replica
 - [ ] Services
-    - webapp: NodePort / External Connection
+    - webapp: Load Balancer / External Connection
     - mysql: ClusterIP / Local Connection
 - [ ] ConfigMap
 - [ ] PVC
