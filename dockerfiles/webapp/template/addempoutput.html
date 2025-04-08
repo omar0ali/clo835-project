@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Add Emp Output</title>
+    <title>Add Emp Output</title>
+    <style>
+        body {
+            background-image: url("/static/background.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            color: DodgerBlue;
+            font-family: Avenir, sans-serif;
+            text-align: center;
+        }
+    </style>
 </head>
-<body style="background: {{ color }};">
-	<h1>The employee {{ name }} wassuccessfully added to the database</h1><br>
-	<h2>The Employee has been added to the database</h2><br>
-	<h2>{{ name }}</h2>
-	<br>
-	<a href="{{ url_for('home') }}">Back</a>
+<body>
+    <h1>The employee {{ name }} was successfully added to the database</h1>
+    <h2>The Employee has been added to the database</h2>
+    <h2>{{ name }}</h2>
+    <a href="{{ url_for('home') }}">Back</a>
 </body>
 </html>
