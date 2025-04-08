@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Employee</title>
+    <style>
+        body {
+            background-image: url("/static/background.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: black;
+            font-family: Avenir, sans-serif;
+            text-align: center;
+        }
+        input {
+            height: 25px;
+            font-size: 14pt;
+        }
+        button {
+            height: 45px;
+            width: 200px;
+            background: grey;
+            color: white;
+            font-style: oblique;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Information</h1>
+    <form action="/fetchdata" method="POST">
+        <h2>Enter Employee ID</h2>
+        Employee ID:<br><input type="number" name="emp_id" size="40"><br><br>
+        <button type="submit">FETCH INFO</button>
+    </form>
+</body>
+</html>
