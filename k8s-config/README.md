@@ -7,7 +7,7 @@
     - mysql: for the database
     - **NOTE:** both single replica
     - [ ] **TEST**: will need some testing
-- [ ] Services
+- [x] Services
     - webapp: Load Balancer / External Connection
     - mysql: ClusterIP / Local Connection
 - [ ] ConfigMap
