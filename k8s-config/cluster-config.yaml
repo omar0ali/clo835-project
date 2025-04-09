@@ -18,6 +18,5 @@ managedNodeGroups:
       enableSsm: true
 
     iam:
-      # AWS account ID <aws account id>
-      instanceRoleARN: arn:aws:iam::<aws-account-id>:role/LabRole
+      instanceRoleARN: arn:aws:iam::${AWS_ACCOUNT_ID}:role/LabRole
 
