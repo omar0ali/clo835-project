@@ -62,9 +62,9 @@ jobs:
         AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
         echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID" >> $GITHUB_ENV
 
-    - name: Change account ID in cluster config manifests
+    - name: Change account ID in cluster config and service account manifests
       run: |
-        # Replace AWS account ID in cluster config manifests
+        # Replace AWS account ID in cluster config and service account manifests
         sed -i "s/\${AWS_ACCOUNT_ID}/${{ env.AWS_ACCOUNT_ID }}/g" k8s-config/*.yaml
 
     - name: Setup SSH and Deploy to EC2
