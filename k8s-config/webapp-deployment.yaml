@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  namespace: final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-app
+          image: <your-ecr-repo-uri>:latest  # actual ECR image URI -- TODO
+          ports:
+            - containerPort: 81
+          env:
+            - name: BG_IMAGE_URL # we need to use configMap -- TODO Not sure if we can do it from here?? or through python app, by downloading the image.
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: bg-url
+            - name: <NAME> # TODO
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: key-name
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+          volumeMounts:
+            - name: image-volume
+              mountPath: /app/static/images  # wherever Flask expects the image -- TODO
+      volumes:
+        - name: image-volume
+          emptyDir: {}  
+
