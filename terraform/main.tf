@@ -53,6 +53,8 @@ resource "aws_instance" "clo835_vm" {
               yum install -y python3
               pip3 install boto3
 
+              echo "export TERM=xterm" >> .bashrc
+
               # Clean up
               rm -rf awscliv2.zip aws/
               EOF
