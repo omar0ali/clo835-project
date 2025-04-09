@@ -4,6 +4,7 @@ ec2_key
 *.pem
 *.pub
 
+*.zip
 # ignore all Terraform files
 *.tfstate
 *.tfstate.*
