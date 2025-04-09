@@ -42,3 +42,7 @@ Navigate into the Project Folder
 cd clo835-project
 ```
 ---
+### Tests
+- [ ] Pushing the images to ECR successfully!
+    - [ ] GitHub Action should SSH to the EC2 instance and pull the images before we ssh manually, to speed the process.
+    **IMPORTANT:** This will require to have the EC2 instance running before running the action.
