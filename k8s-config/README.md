@@ -2,10 +2,11 @@
 - [x] Cluster Config
 - [x] Namespace Config name (final)
 - [ ] Secrets Config
-- [ ] Deployments
+- [x] Deployments
     - webapp: for the website
     - mysql: for the database
-    - NOTE: both single replica
+    - **NOTE:** both single replica
+    - [ ] **TEST**: will need some testing
 - [ ] Services
     - webapp: Load Balancer / External Connection
     - mysql: ClusterIP / Local Connection
