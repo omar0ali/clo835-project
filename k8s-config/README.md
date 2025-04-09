@@ -12,4 +12,4 @@
     - mysql: ClusterIP / Local Connection
 - [ ] ConfigMap
 - [ ] PVC
-- [ ] Service Account
+- [x] Service Account
