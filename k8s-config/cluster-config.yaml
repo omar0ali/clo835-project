@@ -4,7 +4,7 @@ kind: ClusterConfig
 metadata:
   name: clo835
   region: us-east-1
-  version: "1.22" # ensure the correct version is used here.
+  version: "1.30" # ensure the correct version is used here.
 
 availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
 
@@ -18,6 +18,5 @@ managedNodeGroups:
       enableSsm: true
 
     iam:
-      # AWS account ID <aws account id>
-      instanceRoleARN: arn:aws:iam::<aws-account-id>:role/LabRole
+      instanceRoleARN: arn:aws:iam::${AWS_ACCOUNT_ID}:role/LabRole
 
