@@ -89,29 +89,28 @@ jobs:
         #!/bin/bash
         set -e
         
-        # These are empty, even tho they are passed as an environment variables :/ very odd.
-        echo "ECR_REGISTRY is: $ECR_REGISTRY"
-        echo "MYSQL_IMAGE: $MYSQL_IMAGE"
-        echo "WEBAPP_IMAGE: $WEBAPP_IMAGE"
+        # These will now be passed as arguments
+        echo "ECR_REGISTRY is: $1"
+        echo "MYSQL_IMAGE: $2"
+        echo "WEBAPP_IMAGE: $3"
 
         # Login to ECR
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $1
 
         # Pull and verify images
         echo "Pulling MySQL image..."
-        docker pull $ECR_REGISTRY/$MYSQL_IMAGE
+        docker pull $1/$2
         echo "Pulling Webapp image..."
-        docker pull $ECR_REGISTRY/$WEBAPP_IMAGE
+        docker pull $1/$3
 
         # Verify images
         echo "Verifying pulled images..."
-        docker images | grep -E "$ECR_REGISTRY/mysql|$ECR_REGISTRY/app"
+        docker images | grep -E "$1/$2|$1/$3"
         DEPLOY_SCRIPT
 
         # Make script executable and copy to EC2
         chmod +x deploy.sh
         scp -i ~/.ssh/id_rsa -v deploy.sh ec2-user@${{ secrets.EC2_HOST }}:~/deploy.sh
 
-        # Execute deployment script on EC2
-        ssh -i ~/.ssh/id_rsa -v ec2-user@${{ secrets.EC2_HOST }} 'bash ~/deploy.sh'
-      
+        # Execute deployment script on EC2 with variables as arguments
+        ssh -i ~/.ssh/id_rsa -v ec2-user@${{ secrets.EC2_HOST }} "bash ~/deploy.sh '$ECR_REGISTRY' '$MYSQL_IMAGE' '$WEBAPP_IMAGE'"
