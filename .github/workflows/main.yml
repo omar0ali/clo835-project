@@ -74,8 +74,7 @@ jobs:
 
     - name: Setup SSH and Deploy to EC2
       env:
-        # ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         MYSQL_IMAGE: mysql:v0.1
         WEBAPP_IMAGE: app:v0.1
       run: |
@@ -90,23 +89,13 @@ jobs:
         #!/bin/bash
         set -e
 
-        # Configure AWS credentials
-        mkdir -p ~/.aws
-        cat > ~/.aws/credentials << 'CREDENTIALS'
-        [default]
-        aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_session_token = ${{ secrets.AWS_SESSION_TOKEN }}
-        CREDENTIALS
-
-        cat > ~/.aws/config << 'CONFIG'
-        [default]
-        region = us-east-1
-        output = json
-        CONFIG
+        echo "ECR_REGISTRY is: $ECR_REGISTRY"
+        echo "MYSQL_IMAGE: $MYSQL_IMAGE"
+        echo "WEBAPP_IMAGE: $WEBAPP_IMAGE"
 
         # Login to ECR
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
+
 
         # Pull and verify images
         echo "Pulling MySQL image..."
