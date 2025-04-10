@@ -15,15 +15,10 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: <your-mysql-ecr-uri>:latest  # actual ECR MySQL image -- TODO
+          image: <your-mysql-ecr-uri>:latest  # actual ECR URI
           ports:
             - containerPort: 3306
-          env: # we need to use configMap -- TODO
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: root-password
+          env:
             - name: MYSQL_DATABASE
               value: flaskdb
             - name: MYSQL_USER
@@ -43,4 +38,3 @@ spec:
         - name: mysql-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
-

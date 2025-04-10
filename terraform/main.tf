@@ -53,10 +53,10 @@ resource "aws_instance" "clo835_vm" {
               yum install -y python3
               pip3 install boto3
 
-              echo "export TERM=xterm" >> .bashrc
+              echo "export TERM=xterm" >> $HOME/.bashrc
 
               # This will help later when we run the cluster-config, we don't need to modify the cluster-config.yaml file, there is a placeholder...
-              export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+              echo "export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)" >> $HOME/.bashrc
 
               # Clean up
               rm -rf awscliv2.zip aws/

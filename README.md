@@ -51,13 +51,13 @@ Here is the list of required secrets for the action to work.
 1. `AWS_ACCESS_KEY_ID`
 2. `AWS_SECRET_ACCESS_KEY`
 3. `AWS_SESSION_TOKEN`
-4. `SSH_PRIVATE_KEY`
+4. `SSH_PRIVATE_KEY` NOTE: Must include the content of the whole file, including the header and footer of the key.
 5. `EC2_HOST`
 
 
 ### Tests
 - [x] Pushing the images to ECR successfully!
-    - [ ] GitHub Action should SSH to the EC2 instance and pull the images before we ssh manually, to speed the process.
+    - [x] GitHub Action should SSH to the EC2 instance and pull the images before we ssh manually, to speed the process.
     - **IMPORTANT:** This will require to have the EC2 instance running before running the action.
 - [x] Creating a cluster node using `eksctl create cluster -f eks-cluster-config.yaml`, path at `/home/ec2-user/clo835-project/k8s-config`
     - NOTE: to delete `eksctl delete cluster --region=us-east-1 --name=clo835`
