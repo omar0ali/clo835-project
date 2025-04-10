@@ -120,9 +120,8 @@ jobs:
 
         # Make script executable and copy to EC2
         chmod +x deploy.sh
-        scp -i ~/.ssh/id_rsa deploy.sh ec2-user@${{ secrets.EC2_HOST }}:~/deploy.sh
+        scp -i ~/.ssh/id_rsa -v deploy.sh ec2-user@${{ secrets.EC2_HOST }}:~/deploy.sh
 
         # Execute deployment script on EC2
-        ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} 'bash ~/deploy.sh'
-        
+        ssh -i ~/.ssh/id_rsa -v ec2-user@${{ secrets.EC2_HOST }} 'bash ~/deploy.sh'
       
