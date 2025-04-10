@@ -74,7 +74,8 @@ jobs:
 
     - name: Setup SSH and Deploy to EC2
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        # ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
         MYSQL_IMAGE: mysql:v0.1
         WEBAPP_IMAGE: app:v0.1
       run: |
