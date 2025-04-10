@@ -10,7 +10,9 @@ DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "passwors"
 DATABASE = os.environ.get("DATABASE") or "employees"
-DBPORT = int(os.environ.get("DBPORT"))
+DBPORT = int(os.environ.get("DBPORT",3306))
+USER_NAME = os.environ.get("USER_NAME","CLO835")
+
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -26,21 +28,22 @@ table = 'employee';
 
 def download_image_from_s3(s3_url):
     try:
+        print(f"Downloading background image from: {s3_url}")
         os.makedirs("static", exist_ok=True)
         s3 = boto3.client('s3')
         bucket, key = s3_url.replace("s3://", "").split("/", 1)
         local_path = os.path.join("static", "background.jpg")
         s3.download_file(bucket, key, local_path)
     except Exception as e:
-        print("Failed to download image from S3: {e}")
+        print(f"Failed to download image from S3: {e}")
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html')
+    return render_template('addemp.html',name=USER_NAME)
 
 @app.route("/about", methods=['GET', 'POST'])
 def about():
-    return render_template('about.html')
+    return render_template('about.html',name=USER_NAME)
 
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -60,11 +63,11 @@ def AddEmp():
     finally:
         cursor.close()
 
-    return render_template('addempoutput.html')
+    return render_template('addempoutput.html', emp_name=emp_name)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-    return render_template("getemp.html")
+    return render_template("getemp.html", name=USER_NAME)
 
 @app.route("/fetchdata", methods=['GET', 'POST'])
 def FetchData():
@@ -99,9 +102,12 @@ def FetchData():
                            fname=output["first_name"],
                            lname=output["last_name"],
                            interest=output["primary_skills"],
-                           location=output["location"])
+                           location=output["location"],
+                           name=USER_NAME)
                            
 
 if __name__ == "__main__":
-    download_image_from_s3("s3://testclo835-abi/IMG_20231115_131651.jpg")
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    background_image_url = os.environ.get("BACKGROUND_IMAGE_URL")
+    if background_image_url:
+        download_image_from_s3(background_image_url)
+    app.run(host="0.0.0.0", port=81, debug=True)

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Add Employee</title>
     <style>
@@ -13,12 +14,15 @@
             font-family: Avenir, sans-serif;
             text-align: center;
         }
-        input, button {
+
+        input,
+        button {
             height: 25px;
             font-size: 14pt;
             color: grey;
             margin-bottom: 15px;
         }
+
         button {
             height: 45px;
             width: 200px;
@@ -28,7 +32,10 @@
         }
     </style>
 </head>
+
 <body>
+    <h1>Hello from {{ name }}!</h1>
+    <br>
     <h1>Employee Database</h1>
     <form action="/addemp" method="POST">
         Employee ID:<br><input type="number" name="emp_id" size="40"><br>
@@ -41,4 +48,5 @@
     </form>
     <a href="/about">About Us</a>
 </body>
+
 </html>
