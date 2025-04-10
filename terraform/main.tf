@@ -59,6 +59,15 @@ resource "aws_instance" "clo835_vm" {
   export TERM=xterm
   export PATH=$PATH:/usr/local/bin
   export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text || echo "")
+  
+  # Docker local testing
+  export BACKGROUND_IMAGE_URL=s3://clo835bucketlife/field-corn-air-frisch-158827.png
+  export DBHOST=172.17.0.2
+  export DBPWD=pw
+  export DBUSER=root
+  export DBPORT=3306
+  export DATABASE=employees
+
   EOL
 
   # Also add to global profile
