@@ -1,5 +1,5 @@
 ### Requirements
-- [x] Cluster Config
+- [x] Cluster Config **TESTED**
 - [x] Namespace Config name (final)
 - [ ] Secrets Config
 - [x] Deployments
