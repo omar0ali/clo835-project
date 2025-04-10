@@ -41,9 +41,9 @@ resource "aws_instance" "clo835_vm" {
               ./aws/install
 
               # Install kubectl
-              curl -LO "https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.0/2023-11-14/bin/linux/amd64/kubectl"
-              chmod +x kubectl
-              mv kubectl /usr/local/bin/
+             curl -LO "https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl"
+             sudo mv kubectl /usr/local/bin/
+             sudo chmod +x /usr/local/bin/kubectl
 
               # Install eksctl
               curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
