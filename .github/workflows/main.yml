@@ -105,12 +105,12 @@ jobs:
 
         # Verify images
         echo "Verifying pulled images..."
-        docker images | grep -E "$1/$2|$1/$3"
+        docker images | grep -E "$1/$2|$1/$3" || true
         DEPLOY_SCRIPT
 
         # Make script executable and copy to EC2
         chmod +x deploy.sh
-        scp -i ~/.ssh/id_rsa -v deploy.sh ec2-user@${{ secrets.EC2_HOST }}:~/deploy.sh
+        scp -i ~/.ssh/id_rsa deploy.sh ec2-user@${{ secrets.EC2_HOST }}:~/deploy.sh
 
         # Execute deployment script on EC2 with variables as arguments
-        ssh -i ~/.ssh/id_rsa -v ec2-user@${{ secrets.EC2_HOST }} "bash ~/deploy.sh '$ECR_REGISTRY' '$MYSQL_IMAGE' '$WEBAPP_IMAGE'"
+        ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.EC2_HOST }} "bash ~/deploy.sh '$ECR_REGISTRY' '$MYSQL_IMAGE' '$WEBAPP_IMAGE'"
