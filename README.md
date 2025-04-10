@@ -25,8 +25,11 @@ Our objective is to have a virtual machine (EC2) that we can use as a **controll
 2. Deploying an `EC2 instance` instead of *cloud9* and install all required dependencies such as (kubectl, eksctl, docker, aws cli and eensure credentials setup). [terraform deployment](https://github.com/omar0ali/clo835-project/blob/main/terraform/main.tf)
     - This will ensure to prepare an updated .aws/credentials file copied from the host machine, to speed things up.
 3. Will clone our github repo that has all the yaml files (manifests) to deploy our cluster node on EKS.
-4. Will create a namespace to ensure everything is under its own environment.
-5. Start by creating the cluster using the configuration provided.
+4. Start by creating the cluster using the configuration provided.
+5. Will create a namespace to ensure everything is under its own environment.
+6. Create configMap and Secrets
+7. Deployments (webapp and mysql)
+8. Services
 ...
 ---
 ## Getting Started
@@ -56,4 +59,10 @@ Here is the list of required secrets for the action to work.
 - [x] Pushing the images to ECR successfully!
     - [ ] GitHub Action should SSH to the EC2 instance and pull the images before we ssh manually, to speed the process.
     - **IMPORTANT:** This will require to have the EC2 instance running before running the action.
-- [ ] Creating a cluster node using `eksctl create cluster -f eks-cluster-config.yaml`, path at `/home/ec2-user/clo835-project/k8s-config`
+- [x] Creating a cluster node using `eksctl create cluster -f eks-cluster-config.yaml`, path at `/home/ec2-user/clo835-project/k8s-config`
+    - NOTE: to delete `eksctl delete cluster --region=us-east-1 --name=clo835`
+- [ ] Creating Deployments, this is dependeing on configMap and secrets as well as the ECR Images.
+    - configMap
+    - secrets
+    - deployments (mysql, web app)
+    - services (mysql(clusterIP), webapp(loadbalancer))

@@ -4,19 +4,20 @@ kind: ClusterConfig
 metadata:
   name: clo835
   region: us-east-1
-  version: "1.30" # ensure the correct version is used here.
+  version: "1.29" # version 1.30 didn't work
 
 availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
-
+iam:
+  serviceRoleARN: arn:aws:iam::${AWS_ACCOUNT_ID}:role/LabRole # if it fail, copy the number from `aws sts get-caller-identity`
 managedNodeGroups:
   - name: final-node-group
     instanceType: t3.small
     desiredCapacity: 2
     minSize: 1
     maxSize: 3
-    ssh:
-      enableSsm: true
-
+    # commented because it's deprecated, and will be removed later.
+    # ssh:
+    #   enableSsm: true
     iam:
-      instanceRoleARN: arn:aws:iam::${AWS_ACCOUNT_ID}:role/LabRole
+      instanceRoleARN: arn:aws:iam::${AWS_ACCOUNT_ID}:role/LabRole # we will be using an environment vairable.
 
