@@ -26,6 +26,9 @@ resource "aws_instance" "clo835_vm" {
 
   user_data = <<-EOF
               #!/bin/bash
+              set -e
+              set -x
+
               yum update -y
               yum install -y unzip curl jq git bash-completion
 
@@ -57,6 +60,9 @@ resource "aws_instance" "clo835_vm" {
 
               # This will help later when we run the cluster-config, we don't need to modify the cluster-config.yaml file, there is a placeholder...
               echo "export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)" >> $HOME/.bashrc
+
+
+              echo "export PATH=$PATH:/usr/local/bin" >> $HOME/.bashrc
 
               # Clean up
               rm -rf awscliv2.zip aws/
