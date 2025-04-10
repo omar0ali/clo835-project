@@ -61,6 +61,11 @@ jobs:
       run: |
         AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
         echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID" >> $GITHUB_ENV
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+        AWS_REGION: us-east-1
 
     - name: Change account ID in cluster config and service account manifests
       run: |
