@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config
+  namespace: final  # Use your namespace
+data:
+  DBHOST: mysql-service         # 👈 Must match your MySQL service name
+  DBPORT: "3306"                # 👈 Match the Service port (not targetPort)
+  BACKGROUND_IMAGE_URL: s3://testclo835-abi/IMG_20231115_131651.jpg
+  USER_NAME: abi,omar,swagat
