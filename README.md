@@ -51,7 +51,8 @@ Here is the list of required secrets for the action to work.
 1. `AWS_ACCESS_KEY_ID`
 2. `AWS_SECRET_ACCESS_KEY`
 3. `AWS_SESSION_TOKEN`
-4. `SSH_PRIVATE_KEY` NOTE: Must include the content of the whole file, including the header and footer of the key.
+4. `SSH_PRIVATE_KEY` 
+    - NOTE: Must include the content of the whole file, including the header and footer of the key.
 5. `EC2_HOST`
 
 

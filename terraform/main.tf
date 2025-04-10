@@ -25,71 +25,85 @@ resource "aws_instance" "clo835_vm" {
 
 
   user_data = <<-EOF
-              #!/bin/bash
-              yum update -y
-              yum install -y unzip curl jq git bash-completion
+  #!/bin/bash
+  set -e
+  set -x
 
-              # Install Docker
-              amazon-linux-extras install docker -y
-              systemctl enable docker
-              systemctl start docker
-              usermod -aG docker ec2-user
+  sleep 10
 
-              # Install AWS CLI v2
-              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-              unzip awscliv2.zip
-              ./aws/install
+  # Install packages
+  yum update -y
+  yum install -y unzip curl jq git bash-completion
 
-              # Install kubectl
-             curl -LO "https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl"
-             sudo mv kubectl /usr/local/bin/
-             sudo chmod +x /usr/local/bin/kubectl
+  # Docker setup
+  amazon-linux-extras install docker -y
+  systemctl enable docker --now
+  usermod -aG docker ec2-user
 
-              # Install eksctl
-              curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
-              mv /tmp/eksctl /usr/local/bin
+  # AWS CLI
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o awscliv2.zip
+  unzip awscliv2.zip && ./aws/install
 
-              # Install Python 3 and boto3
-              yum install -y python3
-              pip3 install boto3
+  # Kubernetes tools
+  curl -LO "https://dl.k8s.io/release/v1.26.0/bin/linux/amd64/kubectl" \
+    && chmod +x kubectl && mv kubectl /usr/local/bin/
+  curl -sSL "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz" \
+    | tar xz -C /tmp && mv /tmp/eksctl /usr/local/bin
 
-              echo "export TERM=xterm" >> $HOME/.bashrc
+  # Python
+  yum install -y python3
+  pip3 install boto3
 
-              # This will help later when we run the cluster-config, we don't need to modify the cluster-config.yaml file, there is a placeholder...
-              echo "export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)" >> $HOME/.bashrc
+  # Write to BOTH .bashrc and /etc/profile.d for maximum coverage
+  cat >> /home/ec2-user/.bashrc <<'EOL'
+  export TERM=xterm
+  export PATH=$PATH:/usr/local/bin
+  export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text || echo "")
+  EOL
 
-              # Clean up
-              rm -rf awscliv2.zip aws/
-              EOF
+  # Also add to global profile
+  cat > /etc/profile.d/eks_env.sh <<'EOL'
+  export TERM=xterm
+  export PATH=$PATH:/usr/local/bin
+  [ -x "$(command -v aws)" ] && export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text || echo "")
+  EOL
+
+  # Fix permissions
+  chown ec2-user:ec2-user /home/ec2-user/.bashrc
+  chmod 644 /home/ec2-user/.bashrc /etc/profile.d/eks_env.sh
+
+  # Cleanup
+  rm -rf awscliv2.zip aws/
+  EOF
 
   tags = {
     Name = "clo835-vm"
   }
 
   provisioner "remote-exec" {
-      inline = [
-        "mkdir -p /home/ec2-user/.aws"
-      ]
+    inline = [
+      "mkdir -p /home/ec2-user/.aws"
+    ]
 
-      connection {
-        type        = "ssh"
-        user        = "ec2-user"
-        private_key = file("ec2_key")
-        host        = self.public_ip
-      }
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("ec2_key")
+      host        = self.public_ip
     }
+  }
 
-    provisioner "file" {
-      source      = "~/.aws/credentials"
-      destination = "/home/ec2-user/.aws/credentials"
+  provisioner "file" {
+    source      = "~/.aws/credentials"
+    destination = "/home/ec2-user/.aws/credentials"
 
-      connection {
-        type        = "ssh"
-        user        = "ec2-user"
-        private_key = file("ec2_key")
-        host        = self.public_ip
-      }
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("ec2_key")
+      host        = self.public_ip
     }
+  }
 }
 
 resource "aws_security_group" "ssh_access" {
@@ -105,7 +119,7 @@ resource "aws_security_group" "ssh_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-   ingress {
+  ingress {
     description = "HTTP"
     from_port   = 80
     to_port     = 80

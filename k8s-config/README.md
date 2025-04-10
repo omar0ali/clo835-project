@@ -1,7 +1,7 @@
 ### Requirements
 - [x] Cluster Config **TESTED**
 - [x] Namespace Config name (final)
-- [ ] Secrets Config
+- [x] Secrets Config
 - [x] Deployments
     - webapp: for the website
     - mysql: for the database
@@ -11,7 +11,7 @@
     - webapp: Load Balancer / External Connection
     - mysql: ClusterIP / Local Connection
 - [ ] ConfigMap
-- [ ] PVC
+- [x] PVC
 - [x] Service Account
 
 
