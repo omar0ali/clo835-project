@@ -7,7 +7,8 @@ metadata:
   version: "1.30"
 
 availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
-
+iam:
+  serviceRoleARN: arn:aws:iam::${AWS_ACCOUINT_ID}:role/LabRole
 managedNodeGroups:
   - name: final-node-group
     instanceType: t3.small
