@@ -8,10 +8,6 @@ jobs:
   build-and-deploy:
     name: Build Images, Deploy to ECR and EKS
     runs-on: ubuntu-latest
-    env: # ssh might like its variable access from the top level, we will try this now
-      ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      MYSQL_IMAGE: mysql:v0.1
-      WEBAPP_IMAGE: app:v0.1
 
     steps:
     - name: Check out code
@@ -77,6 +73,10 @@ jobs:
         sed -i "s/\${AWS_ACCOUNT_ID}/${{ env.AWS_ACCOUNT_ID }}/g" k8s-config/*.yaml
 
     - name: Setup SSH and Deploy to EC2
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        MYSQL_IMAGE: mysql:v0.1
+        WEBAPP_IMAGE: app:v0.1
       run: |
         # Setup SSH
         mkdir -p ~/.ssh
@@ -88,14 +88,14 @@ jobs:
         cat > deploy.sh << 'DEPLOY_SCRIPT'
         #!/bin/bash
         set -e
-
+        
+        # These are empty, even tho they are passed as an environment variables :/ very odd.
         echo "ECR_REGISTRY is: $ECR_REGISTRY"
         echo "MYSQL_IMAGE: $MYSQL_IMAGE"
         echo "WEBAPP_IMAGE: $WEBAPP_IMAGE"
 
         # Login to ECR
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
-
 
         # Pull and verify images
         echo "Pulling MySQL image..."
