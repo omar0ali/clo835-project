@@ -8,6 +8,6 @@ spec:
   selector:
     app: flask-app
   ports:
-    - port: 80           # Cluster-internal port
+    - port: 80          
       targetPort: 81     # Flask container's internal port
       nodePort: 30000    # Exposed on localhost:30081
