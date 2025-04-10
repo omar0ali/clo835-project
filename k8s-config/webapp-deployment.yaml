@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: flask-app
   namespace: final
+  labels:
+    app: flask-app
 spec:
   replicas: 1
   selector:
@@ -14,35 +16,59 @@ spec:
         app: flask-app
     spec:
       containers:
-        - name: flask-app
-          image: <your-ecr-repo-uri>:latest  # actual ECR image URI -- TODO
+        - name: flask-container
+          image: my_app:latest
+          imagePullPolicy: Never  # Since you're using kind-loaded local image
           ports:
-            - containerPort: 81
+            - containerPort: 81   # Must match your app.py Flask port
           env:
-            - name: BG_IMAGE_URL # we need to use configMap -- TODO Not sure if we can do it from here?? or through python app, by downloading the image.
+            # ConfigMap values
+            - name: DBHOST
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
-                  key: bg-url
-            - name: <NAME> # TODO
+                  name: flask-config
+                  key: DBHOST
+            - name: DBPORT
               valueFrom:
                 configMapKeyRef:
-                  name: app-config
-                  key: key-name
-            - name: MYSQL_USER
+                  name: flask-config
+                  key: DBPORT
+            - name: BACKGROUND_IMAGE_URL
               valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: username
-            - name: MYSQL_PASSWORD
+                configMapKeyRef:
+                  name: flask-config
+                  key: BACKGROUND_IMAGE_URL
+            - name: USER_NAME
               valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: password
-          volumeMounts:
-            - name: image-volume
-              mountPath: /app/static/images  # wherever Flask expects the image -- TODO
-      volumes:
-        - name: image-volume
-          emptyDir: {}  
+                configMapKeyRef:
+                  name: flask-config
+                  key: USER_NAME
 
+            # Secret values
+            - name: DBUSER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: DBUSER
+            - name: DBPWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: DBPWD
+
+            # Optional: AWS credentials from secret (if used)
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_SESSION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: AWS_SESSION_TOKEN
