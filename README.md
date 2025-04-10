@@ -60,6 +60,7 @@ Here is the list of required secrets for the action to work.
     - [ ] GitHub Action should SSH to the EC2 instance and pull the images before we ssh manually, to speed the process.
     - **IMPORTANT:** This will require to have the EC2 instance running before running the action.
 - [x] Creating a cluster node using `eksctl create cluster -f eks-cluster-config.yaml`, path at `/home/ec2-user/clo835-project/k8s-config`
+    - NOTE: to delete `eksctl delete cluster --region=us-east-1 --name=clo835`
 - [ ] Creating Deployments, this is dependeing on configMap and secrets as well as the ECR Images.
     - configMap
     - secrets
