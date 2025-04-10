@@ -77,12 +77,22 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         MYSQL_IMAGE: mysql:v0.1
         WEBAPP_IMAGE: app:v0.1
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       run: |
         # Setup SSH
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+        # Add AWS credentials to bashrc | will be using this for the docker testing
+        cat >> ~/.bashrc <<EOF
+        export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
+        export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+        export AWS_SESSION_TOKEN="${AWS_SESSION_TOKEN}"
+        EOF
 
         # Create deployment script
         cat > deploy.sh << 'DEPLOY_SCRIPT'
