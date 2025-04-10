@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Add Emp Output</title>
     <style>
@@ -15,10 +16,10 @@
         }
     </style>
 </head>
+
 <body>
-    <h1>The employee {{ name }} was successfully added to the database</h1>
-    <h2>The Employee has been added to the database</h2>
-    <h2>{{ name }}</h2>
-    <a href="{{ url_for('home') }}">Back</a>
+    <h2>The Employee <strong>{{ emp_name }}</strong> has been added to the database</h2>
+    <h2>{{ name }}</h2> <a href="{{ url_for('home') }}">Back</a>
 </body>
+
 </html>
