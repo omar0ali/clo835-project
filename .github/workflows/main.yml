@@ -77,9 +77,6 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         MYSQL_IMAGE: mysql:v0.1
         WEBAPP_IMAGE: app:v0.1
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       run: |
         # Setup SSH
         mkdir -p ~/.ssh
@@ -103,9 +100,6 @@ jobs:
         echo "ECR_REGISTRY is: $1"
         echo "MYSQL_IMAGE: $2"
         echo "WEBAPP_IMAGE: $3"
-        echo "ACCESS_KEY: $4"
-        echo "KEY: $5"
-
 
         # Login to ECR
         aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $1
