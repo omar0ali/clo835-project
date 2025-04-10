@@ -34,6 +34,8 @@ spec:
           volumeMounts:
             - name: mysql-storage
               mountPath: /var/lib/mysql
+          imagePullSecrets:
+            - name: ecr-secrets
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:

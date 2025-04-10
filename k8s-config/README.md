@@ -26,16 +26,15 @@ echo -n 'mysql' | base64
 echo -n 'password' | base64
 ```
 
-Here is an example of a secret yaml file.
+### To pull the images from ECR we need the following setup
+Before running, also need to set the secret to be able to download the image.
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secret
-  namespace: final
-type: Opaque
-data:
-  username: bXlzcWw=        # base64 encoded 'mysql'
-  password: cGFzc3dvcmQ=    # base64 encoded 'password'
+```bash
+aws ecr get-login-password --region us-east-1 > ecr-pass.txt
 ```
+
+```bash
+kubectl create secret docker-registry ecr-secret --docker-server=184549016595.dkr.ecr.us-east-1.amazonaws.com --docker-
+username=AWS --docker-password="$(cat ecr-pass.txt)"
+```
+

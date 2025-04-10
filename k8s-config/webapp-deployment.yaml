@@ -18,9 +18,13 @@ spec:
       containers:
         - name: flask-container
           image: my_app:latest
-          imagePullPolicy: Never  # Since you're using kind-loaded local image
+          # imagePullPolicy: Never  # Since you're using kind-loaded local image
           ports:
             - containerPort: 81   # Must match your app.py Flask port
+
+        imagePullSecrets:
+          - name: ecr-secrets
+
           env:
             # ConfigMap values
             - name: DBHOST
@@ -72,3 +76,4 @@ spec:
                 secretKeyRef:
                   name: aws-secret
                   key: AWS_SESSION_TOKEN
+
