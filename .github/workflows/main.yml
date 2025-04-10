@@ -103,8 +103,8 @@ jobs:
         echo "ECR_REGISTRY is: $1"
         echo "MYSQL_IMAGE: $2"
         echo "WEBAPP_IMAGE: $3"
-        echo "${AWS_SESSION_TOKEN}"
-        echo "${AWS_SECRET_ACCESS_KEY}"
+        echo "ACCESS_KEY: $4"
+        echo "KEY: $5"
 
 
         # Login to ECR
