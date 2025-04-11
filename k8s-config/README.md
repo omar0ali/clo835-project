@@ -18,6 +18,8 @@ Before starting at kubernetes, must try running docker locally, please visit `cl
 - [x] Service Account
 
 
+Creating a cluster node using eksctl `create cluster -f cluster-config.yaml`, path at `/home/ec2-user/clo835-project/k8s-config`
+
 ### Here are some useful commands:
 1. `kubectl get nodes` only after cluster is deployed.
 2. `kubectl get storageclass` EKS usually creates a default one named gp2 or gp3.
