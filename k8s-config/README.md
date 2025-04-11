@@ -38,8 +38,20 @@ kubectl create secret docker-registry ecr-secret --docker-server=184549016595.dk
 username=AWS --docker-password="$(cat ecr-pass.txt)" -n final
 ```
 
+
 ### We also need CSI Driver to bind with the pvc volume
 
 ```bash
 eksctl create addon --name aws-ebs-csi-driver --cluster clo835 --region us-east-1 --force
 ```
+
+
+### Execute the following objects in-order:
+1. namespace
+2. ecr-secret (all the secrets)
+3. configMap
+4. pvc
+5. mysql-deployment
+6. mysql-service
+7. webapp-deployment
+8. webapp-services
