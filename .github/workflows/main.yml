@@ -84,13 +84,6 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-        # Add AWS credentials to bashrc | will be using this for the docker testing
-        cat >> .bashrc << 'BASHSCRIPT'
-        export AWS_ACCESS_KEY_ID="$4"
-        export AWS_SECRET_ACCESS_KEY="$5"
-        export AWS_SESSION_TOKEN="$6"
-        BASHSCRIPT
-
         # Create deployment script
         cat > deploy.sh << 'DEPLOY_SCRIPT'
         #!/bin/bash
