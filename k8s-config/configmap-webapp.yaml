@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config
+  namespace: final  
+data:
+  DBHOST: mysql-service        
+  DBPORT: "3306"                
+  BACKGROUND_IMAGE_URL: s3://clo835bucketlife/field-corn-air-frisch-158827.png
+  USER_NAME: Abi, Omar, Swagat
