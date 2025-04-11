@@ -35,7 +35,7 @@ aws ecr get-login-password --region us-east-1 > ecr-pass.txt
 
 ```bash
 kubectl create secret docker-registry ecr-secret --docker-server=184549016595.dkr.ecr.us-east-1.amazonaws.com --docker-
-username=AWS --docker-password="$(cat ecr-pass.txt)"
+username=AWS --docker-password="$(cat ecr-pass.txt)" -n final
 ```
 
 ### We also need CSI Driver to bind with the pvc volume
