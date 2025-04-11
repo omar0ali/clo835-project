@@ -6,11 +6,11 @@
     - webapp: for the website
     - mysql: for the database
     - **NOTE:** both single replica
-    - [ ] **TEST**: will need some testing
+    - [x] **TEST**: will need some testing
 - [x] Services
     - webapp: Load Balancer / External Connection
     - mysql: ClusterIP / Local Connection
-- [ ] ConfigMap
+- [x] ConfigMap
 - [x] PVC
 - [x] Service Account
 
@@ -38,3 +38,8 @@ kubectl create secret docker-registry ecr-secret --docker-server=184549016595.dk
 username=AWS --docker-password="$(cat ecr-pass.txt)"
 ```
 
+### We also need CSI Driver to bind with the pvc volume
+
+```bash
+eksctl create addon --name aws-ebs-csi-driver --cluster clo835 --region us-east-1 --force
+```

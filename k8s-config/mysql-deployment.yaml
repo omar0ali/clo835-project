@@ -13,29 +13,24 @@ spec:
       labels:
         app: mysql
     spec:
+      imagePullSecrets:
+        - name: ecr-secret
       containers:
         - name: mysql
-          image: <your-mysql-ecr-uri>:latest  # actual ECR URI
+          image: 184549016595.dkr.ecr.us-east-1.amazonaws.com/mysql:v0.1
           ports:
             - containerPort: 3306
           env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: DBPWD
             - name: MYSQL_DATABASE
-              value: flaskdb
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: username
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: password
+              value: "employees"
           volumeMounts:
             - name: mysql-storage
               mountPath: /var/lib/mysql
-          imagePullSecrets:
-            - name: ecr-secrets
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
