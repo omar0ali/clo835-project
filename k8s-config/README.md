@@ -1,3 +1,6 @@
+>[!NOTE]
+Before starting at kubernetes, must try running docker locally, please visit `clo835-project/dockerfiles` follow the readme file carefully.
+
 ### Requirements
 - [x] Cluster Config **TESTED**
 - [x] Namespace Config name (final)
@@ -45,7 +48,6 @@ username=AWS --docker-password="$(cat ecr-pass.txt)" -n final
 eksctl create addon --name aws-ebs-csi-driver --cluster clo835 --region us-east-1 --force
 ```
 
-
 ### Execute the following objects in-order:
 1. namespace
 2. ecr-secret (all the secrets)
@@ -54,4 +56,17 @@ eksctl create addon --name aws-ebs-csi-driver --cluster clo835 --region us-east-
 5. mysql-deployment
 6. mysql-service
 7. webapp-deployment
-8. webapp-services
+8. webapp-service
+
+>[IMPORTANT]
+Must wait for at least 3-5 minutes before trying and accessing the loadbalancer DNS.
+
+Here are some commands will be used to help understand whats going on and ensure everything is working as intended
+
+1. `kubectl get nodes`
+2. `kubectl get svc -n final`
+3. `kubectl get pods -n final`
+4. `kubectl get deployments -n final`
+5. `kubectl get secrets -n final`
+6. `kubectl logs <pod-name> -n final`
+7. `kubectl describe [pod, deployment, svc ..etc.] <name> -n final`
