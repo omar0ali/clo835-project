@@ -6,5 +6,5 @@ metadata:
 data:
   DBHOST: mysql-service        
   DBPORT: "3306"                
-  BACKGROUND_IMAGE_URL: ss3://testclo835-abi/IMG_20231115_131651.jpg
+  BACKGROUND_IMAGE_URL: s3://clo835bucketlife/field-corn-air-frisch-158827.png
   USER_NAME: Abi, Omar, Swagat
